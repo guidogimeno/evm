@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ggimeno96/project/api"
+	"github.com/guidogimeno/evm/api"
 )
 
 func main() {

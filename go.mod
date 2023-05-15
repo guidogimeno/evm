@@ -1,4 +1,4 @@
-module github.com/ggimeno96/project
+module github.com/guidogimeno/evm
 
 go 1.20
 
