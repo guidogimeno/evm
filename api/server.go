@@ -14,6 +14,7 @@ type Server struct {
 
 func (s *Server) Start() error {
 	router := gin.Default()
+	router.Use(corsMiddleware())
 	s.mapRoutes(router)
 	return router.Run()
 }
@@ -38,9 +39,18 @@ func (s *Server) handleProjectEvaluation(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"cv":  project.CostVariance(),
-		"cpi": project.CostPerformanceIndex(),
-		"sv":  project.ScopeVariance(),
-		"spi": project.ScopePerformanceIndex(),
+		"costVariance":  project.CostVariance(),
+		"cpi":           project.CostPerformanceIndex(),
+		"scopeVariance": project.ScopeVariance(),
+		"spi":           project.ScopePerformanceIndex(),
 	})
+}
+
+func corsMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		c.Next()
+	}
 }
